@@ -2,7 +2,7 @@
 
 ## 简介
 
-**wysiwyg**
+**What You See Is What You Get 所见即所得**
 
 ## 规范
 
