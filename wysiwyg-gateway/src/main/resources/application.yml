@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: @package.env@
+  main:
+    web-application-type: reactive
+  application:
+    name: wysiwyg-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: wysiwyg-admin
+          uri: http://localhost:8088
+          predicates:
+            - Path=/**
+          filters:
+            - StripPrefix=1
+#logging:
+#  config: classpath:log4j2-@package.env@.xml
+logging:
+  level:
+    root: INFO
+    org.springframework.web: TRACE
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+

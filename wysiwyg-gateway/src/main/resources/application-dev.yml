@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  jackson:
+    serialization:
+      indent-output: true
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+# jwt
+jwt:
+  config:
+    enabled: true
+    key-location: wysiwyg.jks
+    key-alias: wysiwyg
+    key-pass: 111111
+    iss: wysiwyg.com
+    sub: all
+    access-exp-days: 30
+    refresh-exp-days: 90

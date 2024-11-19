@@ -1,0 +1,13 @@
+用于生成密钥
+keytool：调用 keytool 工具。
+-genkey：生成密钥对。
+-alias wysiwyg：指定密钥对的别名，这里是 wysiwyg。
+-keypass 123456：指定密钥对的访问密码，这里是 123456。
+-keyalg RSA：指定密钥算法，这里是 RSA。
+-storetype PKCS12：指定密钥库的类型，这里是 PKCS12。通常 Java 使用的是 JKS 类型，但 PKCS12 是更通用的格式，也被其他平台广泛支持。
+-keysize 2048：指定密钥的大小，这里是 1024 位。RSA 密钥通常可以是 1024、2048 或 4096 位。1024 位在现代加密标准中已被认为不够安全，建议使用至少 2048 位。
+-validity 365：指定证书的有效期，这里是 365 天。
+-keystore D:/workSpace/wysiwyg-cloud/wysiwyg.jks：指定密钥库文件的路径，这里是 C:\wwcc\workSpace\javaWorkspace\github\wysiwyg-cloud\_other\wysiwyg.jks。
+-storepass 123456：指定密钥库的访问密码，这里是 123456。
+
+keytool -genkey -alias wysiwyg -keypass 111111 -keyalg RSA -storetype PKCS12 -keysize 2048 -validity 365 -keystore C:\wwcc\workSpace\javaWorkspace\github\wysiwyg-cloud\_other\wysiwyg.jks -storepass 111111
