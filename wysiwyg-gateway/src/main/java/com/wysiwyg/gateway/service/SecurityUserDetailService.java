@@ -1,7 +1,14 @@
 package com.wysiwyg.gateway.service;
 
 import com.wysiwyg.common.entity.ContextUserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.query.Criteria;
+import org.springframework.data.relational.core.query.Query;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -12,15 +19,19 @@ import java.util.Collections;
  * @author wwcc
  */
 @Service
-public class SecurityUserDetailService {
+@Table
+public class SecurityUserDetailService  {
 
-    public Mono<UserDetails> findByUsername(String phoneNo) {
-        // TODO 查询数据库操作
-        ContextUserInfo contextUserInfo = new ContextUserInfo();
-        contextUserInfo.setPhoneNo(phoneNo);
-        contextUserInfo.setPassword("111111");
-        contextUserInfo.setEmail("1@qq.com");
-        contextUserInfo.setRoles(Collections.singleton("admin"));
-        return Mono.just(contextUserInfo);
+    @Autowired
+    private R2dbcEntityTemplate r2dbcEntityTemplate;
+
+    public Mono<UserDetails> findByUsername(String mobile) {
+        Criteria criteria = Criteria.empty()
+                .and("MOBILE").is(mobile)
+                .and("IS_DELETE").is(0);
+        Query query = Query.query(criteria);
+        return r2dbcEntityTemplate.selectOne(query, ContextUserInfo.class).cast(UserDetails.class);
     }
+
+
 }

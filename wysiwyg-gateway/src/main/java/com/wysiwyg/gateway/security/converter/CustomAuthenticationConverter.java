@@ -31,16 +31,16 @@ public class CustomAuthenticationConverter extends ServerFormLoginAuthentication
         return WebExchangeUtils.parseRequestBodyToJson(exchange)
                 .flatMap(jsonNode -> {
 
-                    String phoneNo = jsonNode.has(AuthConstant.PHONE_NO_PARAMETER) ? jsonNode.get(AuthConstant.PHONE_NO_PARAMETER).asText() : null;
+                    String mobile = jsonNode.has(AuthConstant.MOBILE_PARAMETER) ? jsonNode.get(AuthConstant.MOBILE_PARAMETER).asText() : null;
                     String password = jsonNode.has(AuthConstant.PASSWORD_PARAMETER) ? jsonNode.get(AuthConstant.PASSWORD_PARAMETER).asText() : null;
                     String verificationCode = jsonNode.has(AuthConstant.VERIFICATION_PARAMETER) ? jsonNode.get(AuthConstant.VERIFICATION_PARAMETER).asText() : null;
 
                     // 创建Authentication对象
-                    if (phoneNo != null && password != null) {
-                        ContextUserInfo contextUserInfo = new ContextUserInfo(phoneNo, verificationCode, host);
+                    if (mobile != null && password != null) {
+                        ContextUserInfo contextUserInfo = new ContextUserInfo(mobile, verificationCode, host);
                         return Mono.just(new UsernamePasswordAuthenticationToken(contextUserInfo, password));
                     } else {
-                        return Mono.error(new BadCredentialsException(ResponseEnum.LOGIN_FAILED.getMessage()));
+                        return Mono.error(new BadCredentialsException(ResponseEnum.LOGIN_FAILED.getMsg()));
                     }
 
                 });

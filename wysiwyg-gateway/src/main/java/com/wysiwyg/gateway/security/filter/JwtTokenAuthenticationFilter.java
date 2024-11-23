@@ -47,7 +47,6 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        ServerHttpResponse response = exchange.getResponse();
 
         String path = request.getPath().value();
         if (path.contains(AuthConstant.LOGIN_URL)) {
@@ -56,12 +55,12 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
 
         String auth = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (auth == null) {
-            return WebExchangeUtils.writeErrorResponse(exchange, HttpStatus.NOT_ACCEPTABLE, ResponseEnum.UNAUTHORIZED.getMessage());
+            return WebExchangeUtils.writeErrorResponse(exchange, HttpStatus.NOT_ACCEPTABLE, ResponseEnum.UNAUTHORIZED.getMsg());
         }
         String token = resolveToken(request);
         JSONObject jsonObject = jwtTokenGenerator.decodeAndVerify(token);
 
-
+//
 //        return this.requiresAuthenticationMatcher.matches(exchange)
 //                .filter((matchResult) -> matchResult.isMatch())
 //                .flatMap((matchResult) -> this.authenticationConverter.convert(exchange))

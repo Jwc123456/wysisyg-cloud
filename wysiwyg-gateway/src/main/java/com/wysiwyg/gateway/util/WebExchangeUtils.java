@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class WebExchangeUtils {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     /**
      * 从ServerWebExchange的请求体解析为JsonNode
@@ -36,7 +36,7 @@ public class WebExchangeUtils {
                     String bodyStr = new String(bytes, StandardCharsets.UTF_8);
 
                     try {
-                        return Mono.just(objectMapper.readTree(bodyStr));
+                        return Mono.just(OBJECT_MAPPER.readTree(bodyStr));
                     } catch (JsonProcessingException e) {
                         log.error("Failed to parse JSON request body", e);
                         return Mono.empty();
@@ -61,7 +61,7 @@ public class WebExchangeUtils {
                     String bodyStr = new String(bytes, StandardCharsets.UTF_8);
 
                     try {
-                        return Mono.just(objectMapper.readValue(bodyStr, clazz));
+                        return Mono.just(OBJECT_MAPPER.readValue(bodyStr, clazz));
                     } catch (JsonProcessingException e) {
                         log.error("Failed to parse request body to {}", clazz.getSimpleName(), e);
                         return Mono.empty();
@@ -83,7 +83,7 @@ public class WebExchangeUtils {
                     r.setStatusCode(status);
                     r.getHeaders().setContentType(MediaType.APPLICATION_JSON);
                     try {
-                        DataBuffer buffer = r.bufferFactory().wrap(objectMapper.writeValueAsBytes(responseBody));
+                        DataBuffer buffer = r.bufferFactory().wrap(OBJECT_MAPPER.writeValueAsBytes(responseBody));
                         return r.writeWith(Mono.just(buffer));
                     } catch (JsonProcessingException e) {
                         return Mono.error(new RuntimeException(e));

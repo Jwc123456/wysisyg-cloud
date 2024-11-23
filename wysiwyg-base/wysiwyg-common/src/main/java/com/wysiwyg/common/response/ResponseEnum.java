@@ -1,5 +1,9 @@
 package com.wysiwyg.common.response;
 
+import org.springframework.http.HttpStatus;
+
+
+
 /**
  * @author: wwcc
  * @date: 2024/11/15 18:55:24
@@ -8,29 +12,34 @@ public enum ResponseEnum {
 
 
     // 正常请求响应码
-    OK(1000, "成功"),
+    OK(10000, "成功", HttpStatus.OK),
 
+    // 通用异常
+    INTERNAL_SERVER_ERROR(-10001, "未知错误！",HttpStatus.INTERNAL_SERVER_ERROR),
+    ILLEGAL_ARGUMENT(-10002, "非法参数！",HttpStatus.BAD_REQUEST),
+    NOT_FOUND(-10003, "资源未找到！",HttpStatus.NOT_FOUND),
+    METHOD_NOT_ALLOWED(-10004, "方法不允许！",HttpStatus.METHOD_NOT_ALLOWED),
+    NOT_ACCEPTABLE(-10005, "不接受的媒体类型！",HttpStatus.ACCEPTED),
 
-    // 异常请求响应码
-    INTERNAL_SERVER_ERROR(-1001, "内部服务器错误！"),
-    LOGIN_FAILED(-1002, "登录失败！"),
-    UNAUTHORIZED(-1003, "未授权！"),
-    FORBIDDEN(-1004, "禁止访问！"),
-    NOT_FOUND(-1005, "资源未找到！"),
-    METHOD_NOT_ALLOWED(-1006, "方法不允许！"),
-    NOT_ACCEPTABLE(-1007, "不接受的媒体类型！"),
+    // 用户相关异常
+    USER_NOT_FOUND(-20001, "用户不存在！",HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(-20002, "未授权！",HttpStatus.UNAUTHORIZED),
+    FORBIDDEN(-20003, "禁止访问！",HttpStatus.FORBIDDEN),
+    LOGIN_FAILED(-20003, "登录失败！",HttpStatus.UNAUTHORIZED),
+    LOCALED_USER(-20003, "用户已锁定！",HttpStatus.UNAUTHORIZED);
 
-
-
-    // 其他未定义的状态码
-    UNDEFINED(-9999, "未定义的状态码");
+    
+    
+    
 
     private final int code;
-    private final String message;
+    private final String msg;
+    private final int httpStatusCode;
 
-    ResponseEnum(int code, String message) {
+    ResponseEnum(int code, String msg,HttpStatus httpStatus) {
         this.code = code;
-        this.message = message;
+        this.msg = msg;
+        this.httpStatusCode = httpStatus.value();
     }
 
 
@@ -39,7 +48,11 @@ public enum ResponseEnum {
         return code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatusCode;
     }
 }

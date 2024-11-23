@@ -68,7 +68,7 @@ public class ServerResponseEntity<T> implements Serializable {
 	public static <T> ServerResponseEntity<T> success() {
 		ServerResponseEntity<T> serverResponseEntity = new ServerResponseEntity<>();
 		serverResponseEntity.setCode(ResponseEnum.OK.getCode());
-		serverResponseEntity.setMsg(ResponseEnum.OK.getMessage());
+		serverResponseEntity.setMsg(ResponseEnum.OK.getMsg());
 		return serverResponseEntity;
 	}
 
@@ -76,14 +76,14 @@ public class ServerResponseEntity<T> implements Serializable {
 
 	public static <T> ServerResponseEntity<T> fail(ResponseEnum responseEnum) {
 		ServerResponseEntity<T> serverResponseEntity = new ServerResponseEntity<>();
-		serverResponseEntity.setMsg(responseEnum.getMessage());
+		serverResponseEntity.setMsg(responseEnum.getMsg());
 		serverResponseEntity.setCode(responseEnum.getCode());
 		return serverResponseEntity;
 	}
 
 	public static <T> ServerResponseEntity<T> fail(ResponseEnum responseEnum, T data) {
 		ServerResponseEntity<T> serverResponseEntity = new ServerResponseEntity<>();
-		serverResponseEntity.setMsg(responseEnum.getMessage());
+		serverResponseEntity.setMsg(responseEnum.getMsg());
 		serverResponseEntity.setCode(responseEnum.getCode());
 		serverResponseEntity.setData(data);
 		return serverResponseEntity;

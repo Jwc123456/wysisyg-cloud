@@ -35,8 +35,8 @@ public class CustomServerAuthenticationSuccessHandler implements ServerAuthentic
 
         Map<String, String> additional = new HashMap<>();
         additional.put("name",contextUserInfo.getUsername());
-        additional.put("phoneNo", contextUserInfo.getPhoneNo());
-        additional.put("email",contextUserInfo.getEmail());
+        additional.put("mobile", contextUserInfo.getMobile());
+        additional.put("mail",contextUserInfo.getMail());
 
         JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(contextUserInfo.getUserId(), contextUserInfo.getRoles(), additional);
 

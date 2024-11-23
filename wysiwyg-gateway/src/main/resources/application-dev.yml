@@ -6,6 +6,11 @@ spring:
       indent-output: true
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  r2dbc:
+    username: root
+    password: root
+    url: r2dbc:mysql://192.168.91.201:3306/wysiwyg?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+
 # jwt
 jwt:
   config:

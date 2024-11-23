@@ -9,7 +9,7 @@ public class AuthConstant {
     public static final String LOGIN_URL = "/auth/login";
 
 
-    public static final String PHONE_NO_PARAMETER = "phoneNo";
+    public static final String MOBILE_PARAMETER = "mobile";
 
     public static final String PASSWORD_PARAMETER = "password";
 

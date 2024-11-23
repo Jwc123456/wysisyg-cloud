@@ -4,6 +4,7 @@ package com.wysiwyg.common.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,14 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table("wysiwyg_admin_user")
 public class ContextUserInfo implements UserDetails {
 
     private String userId;
 
-    private String phoneNo;
+    private String mobile;
 
     private String verificationCode;
 
@@ -28,14 +31,16 @@ public class ContextUserInfo implements UserDetails {
 
     private String username;
 
-    private String email;
+    private String mail;
 
     private String password;
 
+    private Integer status;
 
 
-    public ContextUserInfo(String phoneNo, String verificationCode, String host) {
-        this.phoneNo = phoneNo;
+
+    public ContextUserInfo(String mobile, String verificationCode, String host) {
+        this.mobile = mobile;
         this.verificationCode = verificationCode;
         this.host = host;
     }
