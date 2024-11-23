@@ -1,38 +1,25 @@
 package com.wysiwyg.gateway.security.filter;
 
 import cn.hutool.json.JSONObject;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.security.jwt.JwtTokenGenerator;
 import com.wysiwyg.gateway.util.WebExchangeUtils;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.log.LogMessage;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -69,7 +56,7 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
 
         String auth = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (auth == null) {
-            return WebExchangeUtils.writeErrorResponse(exchange, HttpStatus.NOT_ACCEPTABLE, "没有携带token");
+            return WebExchangeUtils.writeErrorResponse(exchange, HttpStatus.NOT_ACCEPTABLE, ResponseEnum.UNAUTHORIZED.getMessage());
         }
         String token = resolveToken(request);
         JSONObject jsonObject = jwtTokenGenerator.decodeAndVerify(token);

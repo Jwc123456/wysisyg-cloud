@@ -1,6 +1,7 @@
 package com.wysiwyg.gateway.security.converter;
 
 import com.wysiwyg.common.entity.ContextUserInfo;
+import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.util.WebExchangeUtils;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,7 @@ public class CustomAuthenticationConverter extends ServerFormLoginAuthentication
                         ContextUserInfo contextUserInfo = new ContextUserInfo(phoneNo, verificationCode, host);
                         return Mono.just(new UsernamePasswordAuthenticationToken(contextUserInfo, password));
                     } else {
-                        return Mono.error(new BadCredentialsException("请输入用户名或密码!"));
+                        return Mono.error(new BadCredentialsException(ResponseEnum.LOGIN_FAILED.getMessage()));
                     }
 
                 });

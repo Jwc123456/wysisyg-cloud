@@ -1,6 +1,7 @@
 package com.wysiwyg.gateway.security.filter;
 
 import com.wysiwyg.common.entity.ContextUserInfo;
+import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.security.converter.CustomAuthenticationConverter;
 import com.wysiwyg.gateway.security.crypto.CustomPasswordEncoder;
@@ -52,7 +53,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
 
         private final SecurityUserDetailService securityUserDetailService;
 
-        public UsernamePasswordAuthenticationManager(CustomPasswordEncoder customPasswordEncoder,SecurityUserDetailService securityUserDetailService) {
+        public UsernamePasswordAuthenticationManager(CustomPasswordEncoder customPasswordEncoder, SecurityUserDetailService securityUserDetailService) {
             this.customPasswordEncoder = customPasswordEncoder;
             this.securityUserDetailService = securityUserDetailService;
         }
@@ -67,7 +68,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
                     // .doOnNext(super.preAuthenticationChecks::check)
                     .publishOn(this.scheduler)
                     .filter((userDetails) -> customPasswordEncoder.matches(presentedPassword, userDetails.getPassword()))
-                    .switchIfEmpty(Mono.defer(() -> Mono.error(new BadCredentialsException("认证失败"))))
+                    .switchIfEmpty(Mono.defer(() -> Mono.error(new BadCredentialsException(ResponseEnum.LOGIN_FAILED.getMessage()))))
                     .map(this::createUsernamePasswordAuthenticationToken);
         }
 

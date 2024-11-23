@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
+/**
+ * @author wwcc
+ */
 @Slf4j
 @EnableConfigurationProperties(JwtProperties.class)
 @ConditionalOnProperty(prefix = "jwt.config", name = "enabled")
