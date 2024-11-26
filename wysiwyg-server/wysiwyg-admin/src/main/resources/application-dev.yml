@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.91.201:3306/wysiwyg?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+#    druid:
+#      #      aop-patterns: com.wysiwyg.admin.*  #监控SpringBean
+#      filters: stat,wall     # 底层开启功能，stat（sql监控），wall（防火墙）
+#      stat-view-servlet:   # 配置监控页功能
+#        enabled: true
+#        login-username: admin
+#        login-password: admin
+#        resetEnable: false
+#      web-stat-filter:  # 监控web
+#        enabled: true
+#        urlPattern: /*
+#        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+#      filter:
+#        stat:    # 对上面filters里面的stat的详细配置
+#          slow-sql-millis: 1000
+#          logSlowSql: true
+#          enabled: true
+#        wall:
+#          enabled: true
+#          config:
+#            drop-table-allow: false
+#  servlet:
+#    multipart:
+#      #      单个文件最大
+#      max-file-size: 10MB
+#      #      整个请求文件大小
+#      max-request-size: 100MB
+#  jackson:
+#    serialization:
+#      indent-output: true
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    time-zone: GMT+8
+  web:
+    resources:
+      static-locations: classpath:/static,classpath:/META-INF/resources
+
+
+
+

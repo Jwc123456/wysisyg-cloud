@@ -44,7 +44,7 @@ public class ReactiveWebSecurityConfiguration {
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(usernamePasswordAuthenticationFilter, SecurityWebFiltersOrder.FORM_LOGIN)
-                .addFilterAfter(jwtTokenAuthenticationFilter, SecurityWebFiltersOrder.HTTP_BASIC);
+                .addFilterAfter(jwtTokenAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
 

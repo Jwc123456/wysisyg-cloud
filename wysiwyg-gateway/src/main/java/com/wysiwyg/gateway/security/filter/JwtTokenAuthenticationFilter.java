@@ -10,8 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
+import org.springframework.security.authentication.ReactiveAuthenticationManagerResolver;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
@@ -33,6 +36,8 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
 
     private ServerSecurityContextRepository securityContextRepository = NoOpServerSecurityContextRepository.getInstance();
 
+    private final ReactiveAuthenticationManagerResolver<ServerWebExchange> authenticationManagerResolver;
+
 
     private JwtTokenGenerator jwtTokenGenerator;
 
@@ -41,6 +46,7 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
                                         JwtTokenGenerator jwtTokenGenerator) {
         super(authenticationManager);
         this.jwtTokenGenerator = jwtTokenGenerator;
+        this.authenticationManagerResolver = (request) -> Mono.just(authenticationManager);
     }
 
     @SneakyThrows
@@ -60,6 +66,7 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
         String token = resolveToken(request);
         JSONObject jsonObject = jwtTokenGenerator.decodeAndVerify(token);
 
+
 //
 //        return this.requiresAuthenticationMatcher.matches(exchange)
 //                .filter((matchResult) -> matchResult.isMatch())
@@ -75,5 +82,16 @@ public class JwtTokenAuthenticationFilter extends AuthenticationWebFilter {
 
     private String resolveToken(ServerHttpRequest request) {
         return Objects.requireNonNull(request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION)).replaceFirst("Bearer ", "");
+    }
+
+    private Mono<Void> authenticate(ServerWebExchange exchange, WebFilterChain chain, Authentication token) {
+        return this.authenticationManagerResolver.resolve(exchange)
+                .flatMap((authenticationManager) -> authenticationManager.authenticate(token))
+                .switchIfEmpty(Mono
+                        .defer(() -> Mono.error(new IllegalStateException("No provider found for " + token.getClass()))))
+                .flatMap(
+                        (authentication) -> onAuthenticationSuccess(authentication, new WebFilterExchange(exchange, chain)))
+                .doOnError(AuthenticationException.class,
+                        (ex) -> log.debug("Authentication failed", ex));
     }
 }

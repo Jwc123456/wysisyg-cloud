@@ -1,7 +1,8 @@
 package com.wysiwyg.gateway.security.handle;
 
-import com.wysiwyg.common.entity.ContextUserInfo;
+import com.wysiwyg.common.model.ContextUserInfo;
 import com.wysiwyg.common.response.ServerResponseEntity;
+import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.security.jwt.JwtTokenGenerator;
 import com.wysiwyg.gateway.security.jwt.JwtTokenPair;
 import com.wysiwyg.gateway.util.WebExchangeUtils;

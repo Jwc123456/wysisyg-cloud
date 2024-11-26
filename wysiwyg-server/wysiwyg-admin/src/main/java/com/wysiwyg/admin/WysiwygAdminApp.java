@@ -1,6 +1,8 @@
 package com.wysiwyg.admin;
 
 
+import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author wwcc
  */
 @SpringBootApplication
+@MapperScan("com.wysiwyg.admin.mapper")
 public class WysiwygAdminApp {
 
 

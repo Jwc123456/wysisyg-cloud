@@ -3,8 +3,6 @@ spring:
     active: @package.env@
   main:
     web-application-type: reactive
-  application:
-    name: wysiwyg-gateway
   cloud:
     gateway:
       routes:

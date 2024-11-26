@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.filter;
 
-import com.wysiwyg.common.entity.ContextUserInfo;
+import com.wysiwyg.common.model.ContextUserInfo;
 import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.security.converter.CustomAuthenticationConverter;
@@ -10,9 +10,7 @@ import com.wysiwyg.gateway.service.SecurityUserDetailService;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;

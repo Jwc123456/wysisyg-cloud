@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.converter;
 
-import com.wysiwyg.common.entity.ContextUserInfo;
+import com.wysiwyg.common.model.ContextUserInfo;
 import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
 import com.wysiwyg.gateway.util.WebExchangeUtils;

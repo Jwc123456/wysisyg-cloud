@@ -1,4 +1,4 @@
-package com.wysiwyg.common.entity;
+package com.wysiwyg.common.model;
 
 
 import lombok.AllArgsConstructor;
