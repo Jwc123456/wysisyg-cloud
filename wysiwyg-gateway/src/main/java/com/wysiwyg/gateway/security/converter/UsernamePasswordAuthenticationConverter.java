@@ -20,7 +20,7 @@ import java.util.Objects;
  * @date: 2024/11/14 20:39:09
  */
 @Component
-public class CustomAuthenticationConverter extends ServerFormLoginAuthenticationConverter {
+public class UsernamePasswordAuthenticationConverter extends ServerFormLoginAuthenticationConverter {
 
 
     @Override

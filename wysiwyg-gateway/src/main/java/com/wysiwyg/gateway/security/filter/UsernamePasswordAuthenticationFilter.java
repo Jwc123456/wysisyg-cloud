@@ -3,7 +3,7 @@ package com.wysiwyg.gateway.security.filter;
 import com.wysiwyg.common.model.ContextUserInfo;
 import com.wysiwyg.common.response.ResponseEnum;
 import com.wysiwyg.gateway.constant.AuthConstant;
-import com.wysiwyg.gateway.security.converter.CustomAuthenticationConverter;
+import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationSuccessHandler;
 import com.wysiwyg.gateway.service.SecurityUserDetailService;
@@ -37,7 +37,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
     public UsernamePasswordAuthenticationFilter(AbstractUserDetailsReactiveAuthenticationManager usernamePasswordAuthenticationManager,
                                                 CustomServerAuthenticationSuccessHandler customServerAuthenticationSuccessHandler,
                                                 CustomServerAuthenticationFailureHandler customServerAuthenticationFailureHandler,
-                                                CustomAuthenticationConverter customAuthenticationConverter) {
+                                                UsernamePasswordAuthenticationConverter customAuthenticationConverter) {
         super(usernamePasswordAuthenticationManager);
         this.setServerAuthenticationConverter(customAuthenticationConverter);
         this.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers(AuthConstant.LOGIN_URL));
@@ -78,8 +78,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
         private UsernamePasswordAuthenticationToken createUsernamePasswordAuthenticationToken(UserDetails userDetails) {
             ContextUserInfo contextUserInfo = (ContextUserInfo) userDetails;
             contextUserInfo.setPassword(null);
-            return UsernamePasswordAuthenticationToken.authenticated(contextUserInfo, null,
-                    userDetails.getAuthorities());
+            return UsernamePasswordAuthenticationToken.authenticated(contextUserInfo, null,userDetails.getAuthorities());
         }
 
 

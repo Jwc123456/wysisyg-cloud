@@ -1,6 +1,7 @@
 package com.wysiwyg.gateway.security.config;
 
-import com.wysiwyg.gateway.security.filter.JwtTokenAuthenticationFilter;
+//import com.wysiwyg.gateway.security.filter.CustomAuthorizationWebFilter;
+import com.wysiwyg.gateway.security.filter.JwtAuthenticationFilter;
 import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,7 @@ public class ReactiveWebSecurityConfiguration {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http,
                                                             UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter,
-                                                            JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter) {
+                                                            JwtAuthenticationFilter jwtTokenAuthenticationFilter) {
 
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -44,7 +45,7 @@ public class ReactiveWebSecurityConfiguration {
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(usernamePasswordAuthenticationFilter, SecurityWebFiltersOrder.FORM_LOGIN)
-                .addFilterAfter(jwtTokenAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+                .addFilterAt(jwtTokenAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
 
