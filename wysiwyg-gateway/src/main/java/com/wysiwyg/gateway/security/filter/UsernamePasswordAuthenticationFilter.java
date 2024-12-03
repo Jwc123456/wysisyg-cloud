@@ -7,6 +7,7 @@ import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConv
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationSuccessHandler;
 import com.wysiwyg.gateway.service.SecurityUserDetailService;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,8 +23,8 @@ import reactor.core.scheduler.Schedulers;
 /**
  * @author: wwcc
  * @date: 2024/11/16 20:29:06
+ * @description: 自定义用户名密码认证过滤器,不能注入容器中，否则会被注入到默认的DefaultWebFilterChain过滤器链，导致过滤器执行多次
  */
-@Component
 public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilter {
 
 
@@ -46,6 +47,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
     }
 
     @Component
+    @Primary
     public static class UsernamePasswordAuthenticationManager extends AbstractUserDetailsReactiveAuthenticationManager {
         private final Scheduler scheduler = Schedulers.boundedElastic();
 

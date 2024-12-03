@@ -9,7 +9,7 @@ spring:
         - id: wysiwyg-admin
           uri: http://localhost:8088
           predicates:
-            - Path=/**
+            - Path=/wysiwyg-admin/**
           filters:
             - StripPrefix=1
 #logging:
