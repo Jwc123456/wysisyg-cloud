@@ -31,7 +31,6 @@ public class ReactiveWebSecurityConfiguration {
     /**
      * @param jwtAuthenticationManager jwt认证管理器
      * @param jwtAuthenticationConverter jwt认证转换器
-     * @param customServerAuthenticationEntryPoint 自定义认证失败处理
      *
      * @param usernamePasswordAuthenticationManager 用户名密码认证管理器
      * @param customServerAuthenticationSuccessHandler 自定义认证成功处理
@@ -43,17 +42,18 @@ public class ReactiveWebSecurityConfiguration {
 
                                                             JwtAuthenticationFilter.JwtAuthenticationManager jwtAuthenticationManager,
                                                             JwtAuthenticationConverter jwtAuthenticationConverter,
-                                                            CustomServerAuthenticationEntryPoint customServerAuthenticationEntryPoint,
+//                                                            CustomServerAuthenticationEntryPoint customServerAuthenticationEntryPoint,
 
                                                             AbstractUserDetailsReactiveAuthenticationManager usernamePasswordAuthenticationManager,
+                                                            UsernamePasswordAuthenticationConverter customAuthenticationConverter,
                                                             CustomServerAuthenticationSuccessHandler customServerAuthenticationSuccessHandler,
-                                                            CustomServerAuthenticationFailureHandler customServerAuthenticationFailureHandler,
-                                                            UsernamePasswordAuthenticationConverter customAuthenticationConverter
+                                                            CustomServerAuthenticationFailureHandler customServerAuthenticationFailureHandler
+
 
     ) {
 
         // 不可以将过滤器注入到容器中，否则会默认注册到DefaultWebFilterChain，和security过滤链重复
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtAuthenticationManager, jwtAuthenticationConverter, customServerAuthenticationEntryPoint);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtAuthenticationManager, jwtAuthenticationConverter, customServerAuthenticationFailureHandler);
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(usernamePasswordAuthenticationManager, customServerAuthenticationSuccessHandler, customServerAuthenticationFailureHandler, customAuthenticationConverter);
 
         http

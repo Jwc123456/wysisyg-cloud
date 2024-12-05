@@ -27,8 +27,9 @@ public enum ResponseEnum {
     USER_NOT_FOUND(-20001, "用户不存在！",HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(-20002, "未授权！",HttpStatus.UNAUTHORIZED),
     FORBIDDEN(-20003, "禁止访问！",HttpStatus.FORBIDDEN),
-    LOGIN_FAILED(-20003, "登录失败！",HttpStatus.UNAUTHORIZED),
-    LOCALED_USER(-20003, "用户已锁定！",HttpStatus.UNAUTHORIZED);
+    LOGIN_FAILED(-20004, "登录失败！",HttpStatus.UNAUTHORIZED),
+    AUTHENTICATION_FAILED(-20005, "认证失败！",HttpStatus.UNAUTHORIZED),
+    LOCALED_USER(-20006, "用户已锁定！",HttpStatus.UNAUTHORIZED);
 
     
     
