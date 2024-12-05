@@ -1,12 +1,10 @@
 package com.wysiwyg.gateway.security.config;
 
-//import com.wysiwyg.gateway.security.filter.CustomAuthorizationWebFilter;
 
 import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
 import com.wysiwyg.gateway.security.filter.JwtAuthenticationFilter;
 import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
-import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationEntryPoint;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +40,6 @@ public class ReactiveWebSecurityConfiguration {
 
                                                             JwtAuthenticationFilter.JwtAuthenticationManager jwtAuthenticationManager,
                                                             JwtAuthenticationConverter jwtAuthenticationConverter,
-//                                                            CustomServerAuthenticationEntryPoint customServerAuthenticationEntryPoint,
 
                                                             AbstractUserDetailsReactiveAuthenticationManager usernamePasswordAuthenticationManager,
                                                             UsernamePasswordAuthenticationConverter customAuthenticationConverter,

@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.handle;
 
-import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ServerResponseEntity;
 import com.wysiwyg.gateway.security.jwt.JwtTokenGenerator;
 import com.wysiwyg.gateway.security.jwt.JwtTokenPair;
@@ -31,14 +31,14 @@ public class CustomServerAuthenticationSuccessHandler implements ServerAuthentic
     @Override
     @SneakyThrows
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
-        ContextUserInfo contextUserInfo = (ContextUserInfo) authentication.getPrincipal();
+        AdminUserPO adminUserPo = (AdminUserPO) authentication.getPrincipal();
 
         Map<String, String> additional = new HashMap<>();
-        additional.put("name",contextUserInfo.getUsername());
-        additional.put("mobile", contextUserInfo.getMobile());
-        additional.put("mail",contextUserInfo.getMail());
+        additional.put("name", adminUserPo.getUsername());
+        additional.put("mobile", adminUserPo.getMobile());
+        additional.put("mail", adminUserPo.getMail());
 
-        JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(contextUserInfo.getUserId(), contextUserInfo.getRoles(), additional);
+        JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(adminUserPo.getUserId(), adminUserPo.getRoles(), additional);
 
         return WebExchangeUtils.writeJsonResponse(webFilterExchange.getExchange(), HttpStatus.OK, ServerResponseEntity.success(jwtTokenPair));
 

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table("wysiwyg_admin_user")
-public class ContextUserInfo implements UserDetails {
+public class AdminUserPO implements UserDetails {
 
     private String userId;
 
@@ -42,7 +42,7 @@ public class ContextUserInfo implements UserDetails {
 
 
 
-    public ContextUserInfo(String mobile, String verificationCode, String host) {
+    public AdminUserPO(String mobile, String verificationCode, String host) {
         this.mobile = mobile;
         this.verificationCode = verificationCode;
         this.host = host;
@@ -52,7 +52,7 @@ public class ContextUserInfo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Optional.ofNullable(roles)
-                .orElse( Collections.emptySet())
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

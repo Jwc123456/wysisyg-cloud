@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.filter;
 
-import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ResponseEnum;
 import com.wysiwyg.common.constant.AuthConstant;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
@@ -51,7 +51,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
     public static class UsernamePasswordAuthenticationManager extends AbstractUserDetailsReactiveAuthenticationManager {
         private final Scheduler scheduler = Schedulers.boundedElastic();
 
-        private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         private final SecurityUserDetailService securityUserDetailService;
 
@@ -63,8 +63,8 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
 
         @Override
         public Mono<Authentication> authenticate(Authentication authentication) {
-            ContextUserInfo contextUserInfo = (ContextUserInfo) authentication.getPrincipal();
-            String mobile = contextUserInfo.getMobile();
+            AdminUserPO adminUserPo = (AdminUserPO) authentication.getPrincipal();
+            String mobile = adminUserPo.getMobile();
             String presentedPassword = (String) authentication.getCredentials();
             return retrieveUser(mobile)
                     .doOnNext(this::preAuthenticationChecks)
@@ -78,9 +78,9 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
 
 
         private UsernamePasswordAuthenticationToken createUsernamePasswordAuthenticationToken(UserDetails userDetails) {
-            ContextUserInfo contextUserInfo = (ContextUserInfo) userDetails;
-            contextUserInfo.setPassword(null);
-            return UsernamePasswordAuthenticationToken.authenticated(contextUserInfo, null,userDetails.getAuthorities());
+            AdminUserPO adminUserPo = (AdminUserPO) userDetails;
+            adminUserPo.setPassword(null);
+            return UsernamePasswordAuthenticationToken.authenticated(adminUserPo, null,userDetails.getAuthorities());
         }
 
 
@@ -91,7 +91,7 @@ public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilte
 
 
         private void preAuthenticationChecks(UserDetails user) {
-            if (!((ContextUserInfo)user).getStatus().equals(1)) {
+            if (!((AdminUserPO)user).getStatus().equals(1)) {
                 throw new LockedException(ResponseEnum.LOCALED_USER.getMsg());
             }
 

@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.service;
 
-import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.model.po.AdminUserPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.mapping.Table;
@@ -26,7 +26,7 @@ public class SecurityUserDetailService  {
                 .and("MOBILE").is(mobile)
                 .and("IS_DELETE").is(0);
         Query query = Query.query(criteria);
-        return r2dbcEntityTemplate.selectOne(query, ContextUserInfo.class).cast(UserDetails.class);
+        return r2dbcEntityTemplate.selectOne(query, AdminUserPO.class).cast(UserDetails.class);
     }
 
 

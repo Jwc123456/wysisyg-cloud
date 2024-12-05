@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.converter;
 
-import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ResponseEnum;
 import com.wysiwyg.common.constant.AuthConstant;
 import com.wysiwyg.gateway.util.WebExchangeUtils;
@@ -37,8 +37,8 @@ public class UsernamePasswordAuthenticationConverter extends ServerFormLoginAuth
 
                     // 创建Authentication对象
                     if (mobile != null && password != null) {
-                        ContextUserInfo contextUserInfo = new ContextUserInfo(mobile, verificationCode, host);
-                        return Mono.just(new UsernamePasswordAuthenticationToken(contextUserInfo, password));
+                        AdminUserPO adminUserPo = new AdminUserPO(mobile, verificationCode, host);
+                        return Mono.just(new UsernamePasswordAuthenticationToken(adminUserPo, password));
                     } else {
                         return Mono.error(new BadCredentialsException(ResponseEnum.LOGIN_FAILED.getMsg()));
                     }

@@ -1,7 +1,7 @@
 package com.wysiwyg.gateway.security.filter;
 
 import com.wysiwyg.common.constant.AuthConstant;
-import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ResponseEnum;
 import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
@@ -13,11 +13,12 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
-import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+
+import static org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher.MatchResult;
 
 /**
  * @author wwcc
@@ -35,8 +36,8 @@ public class JwtAuthenticationFilter extends AuthenticationWebFilter {
                                     Mono.justOrEmpty(exchange.getRequest().getHeaders())
                                         .mapNotNull((headers) -> headers.getFirst(HttpHeaders.AUTHORIZATION))
                                         .filter(Objects::nonNull)
-                                        .flatMap((token) -> null != token  && token.startsWith(AuthConstant.BEARER_PREFIX) ? ServerWebExchangeMatcher.MatchResult.match() : ServerWebExchangeMatcher.MatchResult.notMatch())
-                                        .switchIfEmpty(ServerWebExchangeMatcher.MatchResult.notMatch()));
+                                        .flatMap((token) -> null != token  && token.startsWith(AuthConstant.BEARER_PREFIX) ? MatchResult.match() : MatchResult.notMatch())
+                                        .switchIfEmpty(MatchResult.notMatch()));
         this.setServerAuthenticationConverter(jwtAuthenticationConverter);
         this.setAuthenticationFailureHandler(customServerAuthenticationFailureHandler);
 
@@ -57,7 +58,7 @@ public class JwtAuthenticationFilter extends AuthenticationWebFilter {
             return Mono.justOrEmpty((String) authentication.getCredentials())
                     .flatMap(token -> Mono.just(jwtTokenGenerator.decodeAndVerify(token)))
                     .filter(Objects::nonNull)
-                    .map(jsonObject -> jsonObject.toBean(ContextUserInfo.class))
+                    .map(jsonObject -> jsonObject.toBean(AdminUserPO.class))
                     .onErrorMap(Exception.class, e -> new BadCredentialsException(ResponseEnum.AUTHENTICATION_FAILED.getMsg(),e))
                     .map(contextUserInfo -> UsernamePasswordAuthenticationToken.authenticated(contextUserInfo, null, contextUserInfo.getAuthorities()));
         }
