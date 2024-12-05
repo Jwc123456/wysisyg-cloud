@@ -3,9 +3,8 @@ package com.wysiwyg.gateway.security.jwt;//package com.wysiwyg.admin.security.jw
 //import com.wysiwyg.common.bean.JwtTokenPair;
 //
 ///**
-// * @description:
-// * @author: wwcc
-// * @date: 2022/4/27 21:28
+// * @author wwcc
+// * @date 2022/4/27 21:28
 // **/
 //public interface JwtTokenStorage {
 //

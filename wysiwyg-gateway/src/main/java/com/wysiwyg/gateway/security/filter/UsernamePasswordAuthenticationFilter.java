@@ -21,8 +21,8 @@ import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 /**
- * @author: wwcc
- * @date: 2024/11/16 20:29:06
+ * @author wwcc
+ * @date 2024/11/16 20:29:06
  * @description: 自定义用户名密码认证过滤器,不能注入容器中，否则会被注入到默认的DefaultWebFilterChain过滤器链，导致过滤器执行多次
  */
 public class UsernamePasswordAuthenticationFilter extends AuthenticationWebFilter {

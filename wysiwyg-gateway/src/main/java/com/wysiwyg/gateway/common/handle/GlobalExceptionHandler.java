@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * @author wwcc
+ * @date 2022/9/26 10:49
+ */
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {

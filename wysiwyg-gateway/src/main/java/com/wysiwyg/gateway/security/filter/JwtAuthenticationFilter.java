@@ -15,14 +15,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.Objects;
 
 /**
- * @author: wwcc
- * @Date: 2020/8/17 下午12:53
+ * @author wwcc
+ * @date 2020/8/17 下午12:53
  * @Description: 不能注入容器中，否则会被注入到默认的DefaultWebFilterChain过滤器链，导致过滤器执行多次
  */
 @Slf4j
@@ -52,9 +50,6 @@ public class JwtAuthenticationFilter extends AuthenticationWebFilter {
 
     @Component
     public static class JwtAuthenticationManager implements ReactiveAuthenticationManager {
-
-        private final Scheduler scheduler = Schedulers.boundedElastic();
-
 
         private final JwtTokenGenerator jwtTokenGenerator;
 

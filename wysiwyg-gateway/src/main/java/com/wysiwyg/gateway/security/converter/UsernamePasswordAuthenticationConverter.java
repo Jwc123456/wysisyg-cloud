@@ -16,8 +16,8 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 /**
- * @author: wwcc
- * @date: 2024/11/14 20:39:09
+ * @author wwcc
+ * @date 2024/11/14 20:39:09
  */
 @Component
 public class UsernamePasswordAuthenticationConverter extends ServerFormLoginAuthenticationConverter {

@@ -1,8 +1,8 @@
 package com.wysiwyg.gateway.constant;
 
 /**
- * @author: wwcc
- * @date: 2024/11/14 20:52:48
+ * @author wwcc
+ * @date 2024/11/14 20:52:48
  */
 public class AuthConstant {
 

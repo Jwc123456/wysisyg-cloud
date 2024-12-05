@@ -1,13 +1,15 @@
 package com.wysiwyg.common.response;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
 
 /**
- * @author: wwcc
- * @date: 2024/11/15 18:55:24
+ * @author wwcc
+ * @date 2024/11/15 18:55:24
  */
+@Getter
 public enum ResponseEnum {
 
 
@@ -43,16 +45,4 @@ public enum ResponseEnum {
     }
 
 
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public int getHttpStatusCode() {
-        return httpStatusCode;
-    }
 }

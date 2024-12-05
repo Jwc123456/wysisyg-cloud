@@ -10,9 +10,8 @@ import java.security.interfaces.RSAPrivateCrtKey;
 import java.security.spec.RSAPublicKeySpec;
 
 /**
- * @description:
- * @author: wwcc
- * @date: 2022/4/27 21:15
+ * @author wwcc
+ * @date 2022/4/27 21:15
  **/
 public class KeyPairFactory {
 

@@ -15,9 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @description:
- * @author: wwcc
- * @date: 2022/4/27 21:12
+ * @author wwcc
+ * @date 2022/4/27 21:12
  **/
 public class JwtPayloadBuilder {
     private final Map<String, String> payload = new HashMap<>();

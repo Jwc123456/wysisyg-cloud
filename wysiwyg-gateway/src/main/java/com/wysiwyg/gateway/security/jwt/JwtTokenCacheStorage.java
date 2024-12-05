@@ -6,9 +6,8 @@ package com.wysiwyg.gateway.security.jwt;//package com.wysiwyg.admin.security.jw
 //import org.springframework.cache.annotation.Cacheable;
 //
 ///**
-// * @description:
-// * @author: wwcc
-// * @date: 2022/4/27 21:30
+// * @author wwcc
+// * @date 2022/4/27 21:30
 // **/
 //public class JwtTokenCacheStorage implements JwtTokenStorage {
 //    /**
