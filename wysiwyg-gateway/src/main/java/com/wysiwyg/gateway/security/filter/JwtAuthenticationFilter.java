@@ -21,7 +21,7 @@ import java.util.Objects;
 /**
  * @author wwcc
  * @date 2020/8/17 下午12:53
- * @Description: 不能注入容器中，否则会被注入到默认的DefaultWebFilterChain过滤器链，导致过滤器执行多次
+ * @description 不能注入容器中，否则会被注入到默认的DefaultWebFilterChain过滤器链，导致过滤器执行多次
  */
 @Slf4j
 public class JwtAuthenticationFilter extends AuthenticationWebFilter {
