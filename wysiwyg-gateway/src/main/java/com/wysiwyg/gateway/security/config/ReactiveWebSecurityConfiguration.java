@@ -1,10 +1,10 @@
 package com.wysiwyg.gateway.security.config;
 
 //import com.wysiwyg.gateway.security.filter.CustomAuthorizationWebFilter;
+
 import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
 import com.wysiwyg.gateway.security.filter.JwtAuthenticationFilter;
-//import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
 import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationEntryPoint;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
@@ -17,16 +17,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.WebFilterChainProxy;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
-import org.springframework.security.web.server.context.ServerSecurityContextRepository;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import org.springframework.web.server.handler.DefaultWebFilterChain;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -37,10 +28,15 @@ import java.util.List;
 public class ReactiveWebSecurityConfiguration {
 
 
-
     /**
-     * @param http
-     * @return
+     * @param jwtAuthenticationManager jwt认证管理器
+     * @param jwtAuthenticationConverter jwt认证转换器
+     * @param customServerAuthenticationEntryPoint 自定义认证失败处理
+     *
+     * @param usernamePasswordAuthenticationManager 用户名密码认证管理器
+     * @param customServerAuthenticationSuccessHandler 自定义认证成功处理
+     * @param customServerAuthenticationFailureHandler 自定义认证失败处理
+     * @param customAuthenticationConverter 用户名密码认证转换器
      */
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http,

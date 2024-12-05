@@ -1,4 +1,4 @@
-package com.wysiwyg.gateway.constant;
+package com.wysiwyg.common.constant;
 
 /**
  * @author wwcc
@@ -14,5 +14,8 @@ public class AuthConstant {
     public static final String PASSWORD_PARAMETER = "password";
 
     public static final String VERIFICATION_PARAMETER = "verificationCode";
+
+    public static final String BEARER_PREFIX = "Bearer ";
+
 
 }

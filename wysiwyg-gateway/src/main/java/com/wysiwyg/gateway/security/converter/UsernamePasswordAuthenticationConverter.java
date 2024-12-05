@@ -1,8 +1,8 @@
 package com.wysiwyg.gateway.security.converter;
 
-import com.wysiwyg.common.model.ContextUserInfo;
-import com.wysiwyg.common.response.ResponseEnum;
-import com.wysiwyg.gateway.constant.AuthConstant;
+import com.wysiwyg.common.model.po.ContextUserInfo;
+import com.wysiwyg.common.web.response.ResponseEnum;
+import com.wysiwyg.common.constant.AuthConstant;
 import com.wysiwyg.gateway.util.WebExchangeUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Set;
 
 
+/**
+ * @author wwcc
+ */
 @Slf4j
 public class JwtTokenGenerator {
     private static final String JWT_EXP_KEY = "exp";

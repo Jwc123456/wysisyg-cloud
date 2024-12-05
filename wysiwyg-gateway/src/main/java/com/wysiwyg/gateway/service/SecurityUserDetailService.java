@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.service;
 
-import com.wysiwyg.common.model.ContextUserInfo;
+import com.wysiwyg.common.model.po.ContextUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.mapping.Table;

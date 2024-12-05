@@ -1,4 +1,4 @@
-package com.wysiwyg.common.model;
+package com.wysiwyg.common.model.po;
 
 
 import lombok.AllArgsConstructor;
@@ -13,6 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+/**
+ * @author wwcc
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

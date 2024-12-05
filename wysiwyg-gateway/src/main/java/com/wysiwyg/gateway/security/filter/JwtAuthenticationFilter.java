@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.filter;
 
-import com.wysiwyg.common.model.ContextUserInfo;
+import com.wysiwyg.common.model.po.ContextUserInfo;
 import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationEntryPoint;
 import com.wysiwyg.gateway.security.jwt.JwtTokenGenerator;

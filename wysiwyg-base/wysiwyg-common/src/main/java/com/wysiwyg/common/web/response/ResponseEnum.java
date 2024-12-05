@@ -1,4 +1,4 @@
-package com.wysiwyg.common.response;
+package com.wysiwyg.common.web.response;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

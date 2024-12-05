@@ -1,5 +1,6 @@
 package com.wysiwyg.gateway.security.converter;
 
+import com.wysiwyg.common.constant.AuthConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,15 +18,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class JwtAuthenticationConverter implements ServerAuthenticationConverter {
 
-    private static final String BEARER_PREFIX = "Bearer ";
 
 
     @Override
     public Mono<Authentication> convert(ServerWebExchange exchange) {
         log.error(exchange.getRequest().getURI().toString());
         return Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION))
-                .filter(token -> token != null && token.startsWith(BEARER_PREFIX))
-                .map(token -> token.substring(BEARER_PREFIX.length()))
+                .filter(token -> token != null && token.startsWith(AuthConstant.BEARER_PREFIX))
+                .map(token -> token.substring(AuthConstant.BEARER_PREFIX.length()))
                 .map(jwt -> new UsernamePasswordAuthenticationToken(null, jwt));
     }
 
