@@ -37,12 +37,12 @@ public enum ResponseEnum {
 
     private final int code;
     private final String msg;
-    private final int httpStatusCode;
+    private final HttpStatus httpStatus;
 
     ResponseEnum(int code, String msg,HttpStatus httpStatus) {
         this.code = code;
         this.msg = msg;
-        this.httpStatusCode = httpStatus.value();
+        this.httpStatus = httpStatus;
     }
 
 

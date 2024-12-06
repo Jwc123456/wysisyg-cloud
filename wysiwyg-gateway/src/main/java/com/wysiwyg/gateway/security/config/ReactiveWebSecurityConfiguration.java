@@ -3,13 +3,13 @@ package com.wysiwyg.gateway.security.config;
 
 import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
+import com.wysiwyg.gateway.security.filter.CustomAuthorizationWebFilter;
 import com.wysiwyg.gateway.security.filter.JwtAuthenticationFilter;
 import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractUserDetailsReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
@@ -43,15 +43,19 @@ public class ReactiveWebSecurityConfiguration {
 
                                                             AbstractUserDetailsReactiveAuthenticationManager usernamePasswordAuthenticationManager,
                                                             UsernamePasswordAuthenticationConverter customAuthenticationConverter,
-                                                            CustomServerAuthenticationSuccessHandler customServerAuthenticationSuccessHandler,
-                                                            CustomServerAuthenticationFailureHandler customServerAuthenticationFailureHandler
 
+                                                            CustomServerAuthenticationSuccessHandler customServerAuthenticationSuccessHandler,
+                                                            CustomServerAuthenticationFailureHandler customServerAuthenticationFailureHandler,
+
+                                                            CustomAuthorizationWebFilter.PathBasedReactiveAuthorizationManager pathBasedReactiveAuthorizationManager
 
     ) {
 
         // 不可以将过滤器注入到容器中，否则会默认注册到DefaultWebFilterChain，和security过滤链重复
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtAuthenticationManager, jwtAuthenticationConverter, customServerAuthenticationFailureHandler);
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(usernamePasswordAuthenticationManager, customServerAuthenticationSuccessHandler, customServerAuthenticationFailureHandler, customAuthenticationConverter);
+        CustomAuthorizationWebFilter customAuthorizationWebFilter = new CustomAuthorizationWebFilter(pathBasedReactiveAuthorizationManager);
+
 
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -59,12 +63,9 @@ public class ReactiveWebSecurityConfiguration {
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .logout(ServerHttpSecurity.LogoutSpec::disable)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-                .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyExchange().authenticated()
-                )
                 .addFilterAt(usernamePasswordAuthenticationFilter, SecurityWebFiltersOrder.FORM_LOGIN)
-                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
+                .addFilterAt(customAuthorizationWebFilter, SecurityWebFiltersOrder.AUTHORIZATION);
 
         return http.build();
     }

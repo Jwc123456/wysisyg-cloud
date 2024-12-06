@@ -3,6 +3,7 @@ package com.wysiwyg.gateway.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wysiwyg.common.web.response.ResponseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -109,6 +110,17 @@ public class WebExchangeUtils {
                     DataBuffer buffer = r.bufferFactory().wrap(errorJson.getBytes(StandardCharsets.UTF_8));
                     return r.writeWith(Mono.just(buffer));
                 });
+
+
+    }
+
+    /**
+     * @param exchange   ServerWebExchange对象
+     * @param responseEnum 异常枚举
+     * @return 表示响应完成的Mono<Void>
+     */
+    public static Mono<Void> writeErrorResponse(ServerWebExchange exchange, ResponseEnum responseEnum) {
+        return writeJsonResponse(exchange, responseEnum.getHttpStatus(), responseEnum.getMsg());
 
 
     }
