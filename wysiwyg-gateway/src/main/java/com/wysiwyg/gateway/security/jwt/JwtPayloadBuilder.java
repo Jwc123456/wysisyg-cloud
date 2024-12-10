@@ -1,6 +1,7 @@
 package com.wysiwyg.gateway.security.jwt;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -16,7 +17,7 @@ import java.util.Set;
  * @date 2022/4/27 21:12
  **/
 public class JwtPayloadBuilder {
-    private final Map<String, String> payload = new HashMap<>();
+    private final Map<String, Object> payload = new HashMap<>();
     /**
      * 附加的属性
      */
@@ -100,8 +101,8 @@ public class JwtPayloadBuilder {
         if (!CollectionUtils.isEmpty(additional)) {
             payload.putAll(additional);
         }
-        payload.put("roles", JSONUtil.toJsonStr(this.roles));
-        return JSONUtil.toJsonStr(JSONUtil.parse(payload));
+        payload.put("roles", this.roles);
+        return JSON.toJSONString(payload);
 
     }
 

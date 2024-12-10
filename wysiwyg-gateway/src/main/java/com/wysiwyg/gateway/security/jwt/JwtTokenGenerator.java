@@ -1,11 +1,12 @@
 package com.wysiwyg.gateway.security.jwt;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.json.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
+
 import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
 import java.time.LocalDateTime;
@@ -106,7 +107,6 @@ public class JwtTokenGenerator {
         if (isExpired(exp)) {
             throw new IllegalStateException("jwt token is expired");
         }
-
         return new JSONObject(payload);
     }
 

@@ -58,7 +58,7 @@ public class JwtAuthenticationFilter extends AuthenticationWebFilter {
             return Mono.justOrEmpty((String) authentication.getCredentials())
                     .flatMap(token -> Mono.just(jwtTokenGenerator.decodeAndVerify(token)))
                     .filter(Objects::nonNull)
-                    .map(jsonObject -> jsonObject.toBean(AdminUserPO.class))
+                    .map(jsonObject -> jsonObject.to(AdminUserPO.class))
                     .onErrorMap(Exception.class, e -> new BadCredentialsException(ResponseEnum.AUTHENTICATION_FAILED.getMsg(),e))
                     .map(contextUserInfo -> UsernamePasswordAuthenticationToken.authenticated(contextUserInfo, null, contextUserInfo.getAuthorities()));
         }
