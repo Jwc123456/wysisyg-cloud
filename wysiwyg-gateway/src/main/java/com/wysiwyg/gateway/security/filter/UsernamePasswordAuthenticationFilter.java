@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.filter;
 
-import com.wysiwyg.common.model.po.AdminUserPO;
+import com.wysiwyg.gateway.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ResponseEnum;
 import com.wysiwyg.common.constant.AuthConstant;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;

@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.security.handle;
 
-import com.wysiwyg.common.model.po.AdminUserPO;
+import com.wysiwyg.gateway.model.po.AdminUserPO;
 import com.wysiwyg.common.web.response.ServerResponseEntity;
 import com.wysiwyg.gateway.security.jwt.JwtTokenGenerator;
 import com.wysiwyg.gateway.security.jwt.JwtTokenPair;

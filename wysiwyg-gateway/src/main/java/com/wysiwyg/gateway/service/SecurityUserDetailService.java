@@ -1,6 +1,6 @@
 package com.wysiwyg.gateway.service;
 
-import com.wysiwyg.common.model.po.AdminUserPO;
+import com.wysiwyg.gateway.model.po.AdminUserPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.mapping.Table;

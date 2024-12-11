@@ -1,4 +1,4 @@
-package com.wysiwyg.common.model.po;
+package com.wysiwyg.gateway.model.po;
 
 
 import lombok.AllArgsConstructor;
@@ -58,13 +58,4 @@ public class AdminUserPO implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
 }
