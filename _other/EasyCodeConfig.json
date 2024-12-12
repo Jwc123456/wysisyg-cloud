@@ -1,0 +1,33 @@
+{
+  "author" : "wwcc",
+  "version" : "1.2.9",
+  "userSecure" : "",
+  "currTypeMapperGroupName" : "Default",
+  "currTemplateGroupName" : "custom",
+  "currColumnConfigGroupName" : "Default",
+  "currGlobalConfigGroupName" : "Default",
+  "typeMapper" : { },
+  "template" : {
+    "custom" : {
+      "name" : "custom",
+      "elementList" : [ {
+        "name" : "custom-po.java.vm",
+        "code" : "##导入宏定义\n$!{define.vm}\n##设置表后缀（宏定义）\n#setTableSuffix(\"PO\")\n\n##保存文件（宏定义）\n#save(\"/model/po\", \"PO.java\")\n\n##包路径（宏定义）\n#setPackageSuffix(\"model.po\")\n\n##自动导入包（全局变量）\n$!{autoImport.vm}\n\nimport lombok.AllArgsConstructor;\nimport lombok.Data;\nimport lombok.NoArgsConstructor;\nimport java.io.Serializable;\nimport com.baomidou.mybatisplus.annotation.TableName;\n\n\n\n#tableComment(\"\")\n@Data\n@AllArgsConstructor\n@NoArgsConstructor\n@TableName(\"$!{tableInfo.obj.name}\")\npublic class $!{tableInfo.name}PO implements Serializable{\n    private static final long serialVersionUID = $!tool.serial();\n#foreach($column in $tableInfo.fullColumn)\n    #if(${column.comment})\n    /**\n     * ${column.comment}\n     */#end\n\n    private $!{tool.getClsNameByFullName($column.type)} $!{column.name};\n#end\n\n}\n"
+      }, {
+        "name" : "custom-mapper.java.vm",
+        "code" : "##导入宏定义\n$!{define.vm}\n\n##设置表后缀（宏定义）\n#setTableSuffix(\"Mapper\")\n\n##保存文件（宏定义）\n#save(\"/mapper\", \"Mapper.java\")\n\n##包路径（宏定义）\n#setPackageSuffix(\"mapper\")\n\n\n\nimport java.util.List;\n\nimport com.baomidou.mybatisplus.core.mapper.BaseMapper;\nimport org.apache.ibatis.annotations.Param;\nimport $!{tableInfo.savePackageName}.model.po.$!{tableInfo.name}PO;\n\n\n#tableComment(\"\")\npublic interface $!{tableName} extends BaseMapper<$!{tableInfo.name}PO> {\n\n  \n}\n"
+      }, {
+        "name" : "custom-mapper.xml.vm",
+        "code" : "##引入mybatis支持\n$!{mybatisSupport.vm}\n\n##设置保存名称与保存位置\n$!callback.setFileName($tool.append($!{tableInfo.name}, \"Mapper.xml\"))\n$!callback.setSavePath($tool.append($modulePath, \"/src/main/resources/mapper\"))\n\n##拿到主键\n#if(!$tableInfo.pkColumn.isEmpty())\n    #set($pk = $tableInfo.pkColumn.get(0))\n#end\n\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE mapper PUBLIC \"-//mybatis.org//DTD Mapper 3.0//EN\" \"http://mybatis.org/dtd/mybatis-3-mapper.dtd\">\n<mapper namespace=\"$!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper\">\n\n    <resultMap type=\"$!{tableInfo.savePackageName}.model.po.$!{tableInfo.name}PO\" id=\"$!{tableInfo.name}Map\">\n#foreach($column in $tableInfo.fullColumn)\n        <result property=\"$!column.name\" column=\"$!column.obj.name\" jdbcType=\"$!column.ext.jdbcType\"/>\n#end\n    </resultMap>\n\n    \n</mapper>\n"
+      }, {
+        "name" : "custom-service.java.vm",
+        "code" : "##导入宏定义\n$!{define.vm}\n\n##设置表后缀（宏定义）\n#setTableSuffix(\"Service\")\n\n##保存文件（宏定义）\n#save(\"/service\", \"Service.java\")\n\n##包路径（宏定义）\n#setPackageSuffix(\"service\")\n\nimport com.baomidou.mybatisplus.extension.service.IService;\nimport $!{tableInfo.savePackageName}.model.po.$!tableInfo.name;\n\n##表注释（宏定义）\n#tableComment(\"表服务接口\")\npublic class $!{tableName} extends IService<$!tableInfo.name> {\n\n}\n"
+      }, {
+        "name" : "custom-serviceimpl.java.vm",
+        "code" : "##导入宏定义\n$!{define.vm}\n\n##设置表后缀（宏定义）\n#setTableSuffix(\"Service\")\n\n##保存文件（宏定义）\n#save(\"/service\", \"Service.java\")\n\n##包路径（宏定义）\n#setPackageSuffix(\"service\")\n\nimport org.springframework.stereotype.Service;\nimport com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;\nimport $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper;\nimport $!{tableInfo.savePackageName}.model.po.$!{tableInfo.name}PO;\n\n\n##表注释（宏定义）\n#tableComment(\"表服务接口\")\n@Service\npublic class $!{tableName} extends ServiceImpl<$!{tableInfo.name}Mapper,$!{tableInfo.name}PO> {\n\n}\n"
+      } ]
+    }
+  },
+  "columnConfig" : { },
+  "globalConfig" : { }
+}
