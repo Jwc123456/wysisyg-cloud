@@ -2,7 +2,10 @@
 
 ## 简介
 
-**What You See Is What You Get 所见即所得**
+**What You See Is What You Get 所见即所得**<br>
+不积硅步，无以至千里。不积小流，无以成江海。
+工作数年，希望把自己的所学所想积累起来，以便支援未来。
+
 
 ## 规范
 
