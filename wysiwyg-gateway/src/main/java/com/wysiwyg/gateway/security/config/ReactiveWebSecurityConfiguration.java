@@ -5,6 +5,7 @@ import com.wysiwyg.gateway.security.converter.JwtAuthenticationConverter;
 import com.wysiwyg.gateway.security.converter.UsernamePasswordAuthenticationConverter;
 import com.wysiwyg.gateway.security.filter.CustomAuthorizationWebFilter;
 import com.wysiwyg.gateway.security.filter.JwtAuthenticationFilter;
+import com.wysiwyg.gateway.security.filter.UserInfoEnrichmentFilter;
 import com.wysiwyg.gateway.security.filter.UsernamePasswordAuthenticationFilter;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationFailureHandler;
 import com.wysiwyg.gateway.security.handle.CustomServerAuthenticationSuccessHandler;
@@ -55,7 +56,7 @@ public class ReactiveWebSecurityConfiguration {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtAuthenticationManager, jwtAuthenticationConverter, customServerAuthenticationFailureHandler);
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(usernamePasswordAuthenticationManager, customServerAuthenticationSuccessHandler, customServerAuthenticationFailureHandler, customAuthenticationConverter);
         CustomAuthorizationWebFilter customAuthorizationWebFilter = new CustomAuthorizationWebFilter(pathBasedReactiveAuthorizationManager);
-
+        UserInfoEnrichmentFilter userInfoEnrichmentFilter = new UserInfoEnrichmentFilter();
 
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -65,7 +66,8 @@ public class ReactiveWebSecurityConfiguration {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .addFilterAt(usernamePasswordAuthenticationFilter, SecurityWebFiltersOrder.FORM_LOGIN)
                 .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION)
-                .addFilterAt(customAuthorizationWebFilter, SecurityWebFiltersOrder.AUTHORIZATION);
+                .addFilterAt(customAuthorizationWebFilter, SecurityWebFiltersOrder.AUTHORIZATION)
+                .addFilterAt(userInfoEnrichmentFilter, SecurityWebFiltersOrder.LAST);
 
         return http.build();
     }
