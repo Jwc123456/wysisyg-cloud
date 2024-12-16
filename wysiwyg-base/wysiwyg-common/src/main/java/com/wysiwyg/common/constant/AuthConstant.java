@@ -18,4 +18,9 @@ public class AuthConstant {
     public static final String BEARER_PREFIX = "Bearer ";
 
 
+    public static final String HEAD_USER_NAME = "X-User-Name";
+    public static final String HEAD_USER_ID = "X-User-Id";
+    public static final String HEAD_USER_NAME_ROLES = "X-User-Roles";
+
+
 }
