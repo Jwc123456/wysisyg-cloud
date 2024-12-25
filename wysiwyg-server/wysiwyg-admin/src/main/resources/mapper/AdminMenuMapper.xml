@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wysiwyg.admin.mapper.AdminMenuMapper">
+
+    <resultMap type="com.wysiwyg.admin.model.po.AdminMenuPO" id="AdminMenuMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="INTEGER"/>
+        <result property="isLink" column="IS_LINK" jdbcType="INTEGER"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="path" column="PATH" jdbcType="VARCHAR"/>
+        <result property="icon" column="ICON" jdbcType="VARCHAR"/>
+        <result property="no" column="NO" jdbcType="INTEGER"/>
+        <result property="title" column="TITLE" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="IS_DELETE" jdbcType="INTEGER"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    
+</mapper>
+
