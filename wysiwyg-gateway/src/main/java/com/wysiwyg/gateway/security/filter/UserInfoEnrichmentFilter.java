@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author wwcc
+ * @description 将解析完的上下文用户信息转发给各个业务服务
  */
 public class UserInfoEnrichmentFilter implements org.springframework.web.server.WebFilter {
 

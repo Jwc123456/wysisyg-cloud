@@ -56,6 +56,7 @@ public class ReactiveWebSecurityConfiguration {
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtAuthenticationManager, jwtAuthenticationConverter, customServerAuthenticationFailureHandler);
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(usernamePasswordAuthenticationManager, customServerAuthenticationSuccessHandler, customServerAuthenticationFailureHandler, customAuthenticationConverter);
         CustomAuthorizationWebFilter customAuthorizationWebFilter = new CustomAuthorizationWebFilter(pathBasedReactiveAuthorizationManager);
+        // 将用户信息填充到请求头中，转发给各个微服务
         UserInfoEnrichmentFilter userInfoEnrichmentFilter = new UserInfoEnrichmentFilter();
 
         http
