@@ -31,7 +31,7 @@ public class JwtProperties {
     /**
      * jwt所面向的用户
      **/
-    private String sub;
+    private String aud;
     /**
      * access jwt token 有效天数
      */

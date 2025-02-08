@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Table("wysiwyg_admin_user")
 public class AdminUserPO implements UserDetails {
 
-    private String userId;
+    private String id;
 
     private String mobile;
 

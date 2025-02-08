@@ -21,7 +21,6 @@ import java.util.Set;
 @Slf4j
 public class JwtTokenGenerator {
     private static final String JWT_EXP_KEY = "exp";
-    private JwtPayloadBuilder jwtPayloadBuilder = new JwtPayloadBuilder();
     private JwtProperties jwtProperties;
 
     private KeyPair keyPair;
@@ -42,14 +41,14 @@ public class JwtTokenGenerator {
     /**
      * Jwt token pair jwt token pair.
      *
-     * @param aud        the aud
+     * @param sub        the sub
      * @param roles      the roles
      * @param additional the additional
      * @return the jwt token pair
      */
-    public JwtTokenPair jwtTokenPair(String aud, Set<String> roles, Map<String, String> additional) {
-        String accessToken = jwtToken(aud, jwtProperties.getAccessExpDays(), roles, additional);
-        String refreshToken = jwtToken(aud, jwtProperties.getRefreshExpDays(), roles, additional);
+    public JwtTokenPair jwtTokenPair(String sub, Set<String> roles, Map<String, String> additional) {
+        String accessToken = jwtToken(sub, jwtProperties.getAccessExpDays(), roles, additional);
+        String refreshToken = jwtToken(sub, jwtProperties.getRefreshExpDays(), roles, additional);
 
         JwtTokenPair jwtTokenPair = new JwtTokenPair();
         jwtTokenPair.setAccessToken(accessToken);
@@ -65,18 +64,18 @@ public class JwtTokenGenerator {
     /**
      * Jwt token string.
      *
-     * @param aud        the aud
+     * @param sub        the sub
      * @param exp        the exp
      * @param roles      the roles
      * @param additional the additional
      * @return the string
      */
-    private String jwtToken(String aud, int exp, Set<String> roles, Map<String, String> additional) {
-
+    private String jwtToken(String sub, int exp, Set<String> roles, Map<String, String> additional) {
+        JwtPayloadBuilder jwtPayloadBuilder = new JwtPayloadBuilder();
         String payload = jwtPayloadBuilder
                 .iss(jwtProperties.getIss())
-                .sub(jwtProperties.getSub())
-                .aud(aud)
+                .aud(jwtProperties.getAud())
+                .sub(sub)
                 .additional(additional)
                 .roles(roles)
                 .expDays(exp)

@@ -36,7 +36,7 @@ public class UserInfoEnrichmentFilter implements org.springframework.web.server.
     private Mono<Void> enrichRequestWithUserInfo(ServerWebExchange exchange, WebFilterChain chain, AdminUserPO adminUser) {
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
                 .header(AuthConstant.HEAD_USER_NAME, adminUser.getUsername())
-                .header(AuthConstant.HEAD_USER_ID, adminUser.getUserId())
+                .header(AuthConstant.HEAD_USER_ID, adminUser.getId())
                 .header(AuthConstant.HEAD_USER_NAME_ROLES, JSON.toJSONString(adminUser.getRoles()))
                 .build();
 

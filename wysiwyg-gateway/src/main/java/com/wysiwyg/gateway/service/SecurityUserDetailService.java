@@ -37,7 +37,7 @@ public class SecurityUserDetailService  {
         Query query = Query.query(criteria);
         return r2dbcEntityTemplate.selectOne(query, AdminUserPO.class)
                 .flatMap(user-> databaseClient.sql("select ROLE_ID from wysiwyg_admin_user_role where user_id = ?")
-                        .bind(0,user.getUserId())
+                        .bind(0,user.getId())
                         .map(row-> String.valueOf(row.get("ROLE_ID")))
                         .all()
                         .collect(Collectors.toSet())

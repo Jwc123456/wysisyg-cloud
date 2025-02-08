@@ -38,7 +38,7 @@ public class CustomServerAuthenticationSuccessHandler implements ServerAuthentic
         additional.put("mobile", adminUserPo.getMobile());
         additional.put("mail", adminUserPo.getMail());
 
-        JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(adminUserPo.getUserId(), adminUserPo.getRoles(), additional);
+        JwtTokenPair jwtTokenPair = jwtTokenGenerator.jwtTokenPair(adminUserPo.getId(), adminUserPo.getRoles(), additional);
 
         return WebExchangeUtils.writeJsonResponse(webFilterExchange.getExchange(), HttpStatus.OK, ServerResponseEntity.success(jwtTokenPair));
 
