@@ -26,6 +26,10 @@ public class ContextUser {
         return USER_THREAD_LOCAL.get();
     }
 
+    public static String getUserId(){
+        return getUserInfo().getUserId();
+    }
+
     // 清理当前线程的用户信息
     public static void clear() {
         USER_THREAD_LOCAL.remove();

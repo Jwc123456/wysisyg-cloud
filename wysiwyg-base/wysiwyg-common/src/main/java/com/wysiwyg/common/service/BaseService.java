@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wysiwyg.common.context.ContextUser;
 import com.wysiwyg.common.enums.IsDeleteEnum;
 import com.wysiwyg.common.model.po.BasePO;
 import lombok.extern.slf4j.Slf4j;
@@ -52,15 +53,15 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      * 列出所有未被标记为删除的记录。
      * @return 未被删除的记录列表。
      */
-    protected List<T> listActive() {
-        return lambdaQueryActive().list();
+    public List<T> listActive() {
+        return activeQuery().list();
     }
 
     /**
      * 创建一个查询条件，排除被标记为删除的记录。
      * @return 用于构建查询的LambdaQueryChainWrapper对象。
      */
-    protected LambdaQueryChainWrapper<T> lambdaQueryActive() {
+    public LambdaQueryChainWrapper<T> activeQuery() {
         return this.lambdaQuery().setEntityClass(getEntityClass()).eq(T::getIsDelete, IsDeleteEnum.NO.getCode());
     }
 
@@ -72,7 +73,7 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      */
     public boolean updateWithBase(Wrapper<T> updateWrapper) {
         T entity = updateWrapper.getEntity();
-        populateUpdateField(entity);
+        fillUpdateFields(entity);
         return super.update(entity, updateWrapper);
     }
 
@@ -82,7 +83,7 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      * @return 更新是否成功。
      */
     public boolean updateWithBase(T entity) {
-        populateUpdateField(entity);
+        fillUpdateFields(entity);
         return super.updateById(entity);
     }
 
@@ -91,14 +92,14 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      * @param idList 要软删除的记录ID列表。
      * @return 软删除操作是否成功。
      */
-    public boolean softDeleteByIds(Collection<Long> idList) {
+    public boolean markDeleted(Collection<Long> idList) {
         UpdateWrapper<T> updateWrapper = new UpdateWrapper<>();
         updateWrapper.in(ID, idList);
         updateWrapper.eq(IS_DELETE, IsDeleteEnum.NO.getCode());
         //排除删除的数据
         updateWrapper.set(IS_DELETE, IsDeleteEnum.YES.getCode());
-        // TODO threadlocal中获取用户待完善
-//        updateWrapper.set(UPDATE_BY,SystemUtil.getCurrentUser().getUserId());
+
+        updateWrapper.set(UPDATE_BY,ContextUser.getUserId());
         updateWrapper.set(UPDATE_TIME, LocalDateTime.now());
         return super.update(updateWrapper);
     }
@@ -108,13 +109,12 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      * 填充创建时的基础字段，如创建时间、创建人和是否删除。
      * @param t 要填充的记录实体。
      */
-    public static <T extends BasePO> void populateCreateField(T t) {
+    public static <T extends BasePO> void fillCreateFields(T t) {
         if (null == t.getIsDelete()) {
             t.setIsDelete(IsDeleteEnum.NO.getCode());
         }
         if (StringUtils.isEmpty(t.getCreateBy())) {
-            // TODO threadlocal中获取用户待完善
-//            t.setCreateBy(SystemUtil.getCurrentUser().getUserId());
+            t.setCreateBy(ContextUser.getUserId());
         }
         if (null == t.getCreateTime()) {
             t.setCreateTime(LocalDateTime.now());
@@ -125,10 +125,9 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
      * 填充更新时的基础字段，如更新时间和更新人。
      * @param t 要填充的记录实体。
      */
-    private static <T extends BasePO> void populateUpdateField(T t) {
+    private static <T extends BasePO> void fillUpdateFields(T t) {
         if (StringUtils.isEmpty(t.getUpdateBy())) {
-            // TODO threadlocal中获取用户待完善
-//            t.setUpdateBy(SystemUtil.getCurrentUser().getUserId());
+            t.setUpdateBy(ContextUser.getUserId());
         }
         if (null == t.getUpdateTime()) {
             t.setUpdateTime(LocalDateTime.now());
