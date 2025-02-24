@@ -1,5 +1,6 @@
 package com.wysiwyg.common.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -8,12 +9,15 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wysiwyg.common.context.ContextUser;
 import com.wysiwyg.common.enums.IsDeleteEnum;
+import com.wysiwyg.common.model.dto.BaseDTO;
 import com.wysiwyg.common.model.po.BasePO;
+import com.wysiwyg.common.model.vo.BaseVO;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wwcc
@@ -21,7 +25,7 @@ import java.util.List;
  * @description 重写ServiceImpl将平台表的一些公共字段提取自动组装
  */
 @Slf4j
-public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends ServiceImpl<M, T> {
+public abstract class BaseService<M extends BaseMapper<T>,D extends BaseDTO, T extends BasePO, V extends BaseVO> extends ServiceImpl<M, T> {
 
     /**
      * 是否删除
@@ -57,6 +61,7 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
         return activeQuery().list();
     }
 
+
     /**
      * 创建一个查询条件，排除被标记为删除的记录。
      * @return 用于构建查询的LambdaQueryChainWrapper对象。
@@ -65,6 +70,17 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
         return this.lambdaQuery().setEntityClass(getEntityClass()).eq(T::getIsDelete, IsDeleteEnum.NO.getCode());
     }
 
+    /**
+     * 通过DTO条件更新记录
+     * @param dto 查询条件DTO
+     * @param updateWrapper 更新条件包装器
+     * @return 更新是否成功
+     */
+    public boolean updateWithBase(D dto, Wrapper<T> updateWrapper) {
+        T entity = dtoToPo(dto);
+        fillUpdateFields(entity);
+        return super.update(entity, updateWrapper);
+    }
 
     /**
      * 更新记录时填充基础字段，如更新时间和更新人。
@@ -77,6 +93,18 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
         return super.update(entity, updateWrapper);
     }
 
+
+
+    /**
+     * 通过DTO更新记录
+     * @param dto 数据传输对象
+     * @return 更新是否成功
+     */
+    public boolean updateWithBase(D dto) {
+        T entity = dtoToPo(dto);
+        fillUpdateFields(entity);
+        return super.updateById(entity);
+    }
     /**
      * 通过ID更新记录时填充基础字段，如更新时间和更新人。
      * @param entity 要更新的记录实体。
@@ -99,7 +127,7 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
         //排除删除的数据
         updateWrapper.set(IS_DELETE, IsDeleteEnum.YES.getCode());
 
-        updateWrapper.set(UPDATE_BY,ContextUser.getUserId());
+        updateWrapper.set(UPDATE_BY, ContextUser.getUserId());
         updateWrapper.set(UPDATE_TIME, LocalDateTime.now());
         return super.update(updateWrapper);
     }
@@ -132,6 +160,42 @@ public class BaseService<M extends BaseMapper<T>, T extends BasePO> extends Serv
         if (null == t.getUpdateTime()) {
             t.setUpdateTime(LocalDateTime.now());
         }
+    }
+
+
+    /**
+     * 通用DTO转PO方法（需子类实现）
+     * @param dto 传输对象
+     * @return 视图对象
+     */
+    protected T dtoToPo(D dto) {
+        throw new UnsupportedOperationException("dtoToPo method must be implemented in subclass");
+    }
+
+    /**
+     * 通用PO转VO方法（需子类实现）
+     * @param po 持久化对象
+     * @return 视图对象
+     */
+    protected V poToVo(T po) {
+        throw new UnsupportedOperationException("poToVo method must be implemented in subclass");
+    }
+
+
+    /**
+     * PO列表转VO列表
+     * @param poList 持久化对象列表
+     * @return 视图对象列表
+     */
+    public List<V> poListToVoList(List<T> poList) {
+        return poList.stream()
+                .map(this::poToVo)
+                .collect(Collectors.toList());
+    }
+
+    // 在查询方法中添加VO转换版本
+    public List<V> listActiveVo() {
+        return poListToVoList(listActive());
     }
 
 
